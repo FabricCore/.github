@@ -1,4 +1,4 @@
-# JSCore -<br>Minecraft Modding for the Uncommitted
+# JSCore - Minecraft Modding for the Uncommitted
 
 JSCore allows modules **written in JavaScript** to access Minecraft internals, giving it capabilities **on-par with traditional modding\*** with a fraction of the hassle required.
 
