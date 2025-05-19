@@ -100,7 +100,7 @@ _\*It is good practice for each module to do one task and one task only (see [th
 
 Baritone - the Minecraft path finding automation is ***technically possible*** in JSCore.
 
-#### When not to use JSCore?
+### When not to use JSCore?
 
 Do not use JSCore if:
 - Key parts of your module **rely on mixins**, as it is not ready yet.
