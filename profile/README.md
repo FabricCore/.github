@@ -139,5 +139,4 @@ sequenceDiagram
 
 In this case, **Yarnwrap** exposes 20k obfuscated methods to any scripting runtime. Similarly, **Mixinwrap** (to be written) will expose some Mixin functionalities as events that can be listened to.
 
-<img src="./img/jscore-icon.png" width=50px>
-<img src="./img/yarnwrap-icon.png" width=50px>
+<img src="./img/jscore-icon.png" width=50px><img src="./img/yarnwrap-icon.png" width=50px>
