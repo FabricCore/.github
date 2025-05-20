@@ -8,6 +8,14 @@ JSCore allows modules **written in JavaScript** to access Minecraft internals, g
 
 _\*Only for customisations depending on [events](https://wiki.fabricmc.net/tutorial:event_index), there will be very limited support mixins in the future._
 
+### Quick Links
+
+- JSCore ([GitHub](https://github.com/FabricCore/JSCore))
+- Yarnwrap ([GitHub](https://github.com/FabricCore/yarnwrap))
+- Package repository ([GitHub](https://github.com/FabricCore/repo))
+- Yarnwrap Index (TBD)
+- JSCore book (TBD)
+
 ## Why use JSCore?
 
 With reference to the diagram below **(unbiased)**
@@ -105,3 +113,31 @@ Baritone - the Minecraft path finding automation is ***technically possible*** i
 Do not use JSCore if:
 - Key parts of your module **rely on mixins**, as it is not ready yet.
 - Library you are accessing requires **Java specific language features**, such as class inheritance.
+
+## How does JSCore Work?
+
+JSCore contains the [Rhino](https://rhino.github.io/) JavaScript runtime, which allows Java classes and methods to be accessed from JS.
+
+### Problem with Obfuscation
+
+Mods that uses JavaScript such as [ChatTriggers](https://chattriggers.com/) cannot access Minecraft internals because they are obfuscated. For example, **net.minecraft.client.MinecraftClient** is obfuscated to **net.minecraft.class_310**, making it inaccessible by its original name.
+
+The workaround to obfuscation requires [Yarnwrap](https://github.com/FabricCore/yarnwrap) which translates the human readable name into the obfuscated name when it is accessed.
+
+```mermaid
+sequenceDiagram
+    JSCore-->>Yarnwrap: Give me MinecraftClient
+    Yarnwrap-->>Minecraft: Give me class_310
+    Minecraft->>Yarnwrap: Here's class_310
+    Yarnwrap->>JSCore: Here's MinecraftClient
+```
+
+### Wraps and Cores
+
+- A **core** provides a runtime for a scripting language.
+- A **wrap** exposes some Minecraft internals to the scripting runtime.
+
+In this case, **Yarnwrap** exposes 20k obfuscated methods to any scripting runtime. Similarly, **Mixinwrap** (to be written) will expose some Mixin functionalities as events that can be listened to.
+
+<img src="./img/jscore-icon.png" width=50px>
+<img src="./img/yarnwrap-icon.png" width=50px>
