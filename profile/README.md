@@ -10,6 +10,7 @@ _\*Only for customisations depending on [events](https://wiki.fabricmc.net/tutor
 
 ### Quick Links
 
+- Project page ([GitHub Projects](https://github.com/orgs/FabricCore/projects/1/views/2))
 - JSCore ([GitHub](https://github.com/FabricCore/JSCore))
 - Yarnwrap ([GitHub](https://github.com/FabricCore/yarnwrap))
 - Package repository ([GitHub](https://github.com/FabricCore/repo))
