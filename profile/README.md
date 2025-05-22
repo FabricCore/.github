@@ -14,8 +14,8 @@ _\*Only for customisations depending on [events](https://wiki.fabricmc.net/tutor
 - JSCore ([GitHub](https://github.com/FabricCore/JSCore))
 - Yarnwrap ([GitHub](https://github.com/FabricCore/yarnwrap))
 - Package repository ([GitHub](https://github.com/FabricCore/repo))
-- Yarnwrap Index (TBD)
-- JSCore book (TBD)
+- Yarnwrap Index ([Link](https://yarnwrap.siri.ws)
+- JSCore book ([Link](https://jscore.siri.ws))
 
 ## Why use JSCore?
 
