@@ -44,8 +44,7 @@ JSCore modules are **easy to write**, because you already know it.
 
 ```js
 function main(ctx) {
-  let argument = StringArgumentType.getString(ctx, "message");
-  console.log(`User said "${argument}".`);
+  console.log(`User said "${StringArgumentType.getString(ctx, "message")}".`);
 }
 ```
 
