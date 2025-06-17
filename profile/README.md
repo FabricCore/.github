@@ -9,7 +9,7 @@ JSCore allows modules **written in JavaScript** to access Minecraft internals, g
 _\*Only for customisations depending on [events](https://wiki.fabricmc.net/tutorial:event_index), there will be very limited support mixins in the future._
 
 > [!IMPORTANT]
-> Join [**Discord**](https://discord.gg/WAR9aKVFQJ), we like feedback from the user and new packages from developers.
+> JSCore and Yarnwrap are currently being rewritten, join [**Discord**](https://discord.gg/WAR9aKVFQJ) to see the progress of the rewrite. We like feedback from the user and new packages from developers.
 
 ### Quick Links
 
