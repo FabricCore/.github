@@ -1,132 +1,77 @@
-# JSCore - Minecraft Modding for the Uncommitted
+# FabricMC + JavaScript = JSCore
 
-JSCore allows modules **written in JavaScript** to access Minecraft internals, giving it capabilities **on-par with traditional modding\*** with a fraction of the hassle required.
+JSCore is a thin wrapper around FabricMC.
 
-- **No setup/IDE required** to create a module.
-- **Hot reloads** - restart **_not required_** to apply change.
-- Over **20,000 internal Java methods** available.
+## What does this mod do?
 
-_\*Only for customisations depending on [events](https://wiki.fabricmc.net/tutorial:event_index), there will be very limited support mixins in the future._
+This mod provides full JavaScript support for Minecraft modding, you can create or use community modules to customise your game.
 
-> [!IMPORTANT]
-> JSCore and Yarnwrap are currently being rewritten, join [**Discord**](https://discord.gg/WAR9aKVFQJ) to see the progress of the rewrite. We like feedback from the user and new packages from developers.
+In short, JSCore can do
+- Everything a typical JS runtime, such as KubeJS, can do.
+- Everything in FabricMC that does not use Mixins*
+- Interact with other mods.
 
-### Quick Links
+\*Mixins support depends on whether one guy on Discord can get it to work or not.
 
-- Project page ([GitHub Projects](https://github.com/orgs/FabricCore/projects/1/views/2))
-- JSCore ([GitHub](https://github.com/FabricCore/JSCore))
-- Yarnwrap ([GitHub](https://github.com/FabricCore/yarnwrap))
-- Package repository ([GitHub](https://github.com/FabricCore/repo))
-- Yarnwrap Index ([Link](https://yarnwrap.siri.ws))
-- JSCore book ([Link](https://jscore.siri.ws))
+## How to use it?
 
-## Why use JSCore?
+Just download the mod and run the game!
 
-With reference to the diagram below **(unbiased)**
+Read the [Quickstart Guide](./quickstart).
 
-```mermaid
-quadrantChart
-    x-axis Hassle --> Easy to use
-    y-axis Toy --> Power tool
-    Fabric/Forge: [0.2, 0.8]
-    Datapacks: [0.62, 0.35]
-    Skript: [0.75, 0.3]
-    JSCore: [0.55, 0.65]
-    StarScript: [0.85, 0.05]
-    ChatTriggers: [0.82, 0.12]
-```
+## How is it different from KubeJS/JSMacros?
 
-### Developer Friendly
+### Access to Minecraft Internals
 
-JSCore modules are **easy to write**, because you already know it.
-
-- **Familiar** language features with JavaScript.
+JSCore allows access to classes in the **net.minecraft** package - anything that FabricMC can do (except Mixins), JSCore can also do it.
 
 ```js
-function main(ctx) {
-  let argument = StringArgumentType.getString(ctx, "message");
-  console.log(`User said "${argument}".`);
+// client: net.minecraft.client.MinecraftClient
+let client = net.minecraft.client.MinecraftClient.getInstance();
+// player: net.minecraft.client.network.ClientPlayerEntity
+let player = client.player;
+// position: net.minecraft.util.math.BlockPos
+let position = player.getBlockPos();
+```
+
+### Module System Similar to Node.js
+
+The module system from Node.js allows complex game mechanics to be built from small and managable chunks, so we brought it to JSCore.
+
+```js
+// init.js
+let savePlayers = require("./savePlayers");
+savePlayers();
+```
+
+```js
+// savePlayers.js
+let fs = require("fs");
+let { getPlayers } = require("./getPlayers");
+
+function savePlayers() {
+    let players = getPlayers();
+    let content = JSON.stringify(players);
+    fs.writeFileSync("./playerList.json", content);
 }
+
+module.exports = savePlayers;
 ```
 
-- **Declarative** command registration.
+## What features does this mod have?
 
-```js
-Command.register({
-  package: "modules/mymodule",
-  name: "mycmd",
-  execute: "nooptions.js",
+This mod runs **init.js** on start.
 
-  subcommands: {
-    name: {
-      execute: "noname.js"
-      args: {
-        username: {
-          type: StringArgumentType.greedyString(),
-          execute: "withname.js"
-        }
-      }
-    },
-  }
-});
-```
+Additional features are provided by third-party modules, such as
+- **Rinode**: provide Node.js features such as `console.log` and `fs`.
+- **Command**: Declarative Minecraft command registration.
+- **Pully**: package manager for JSCore.
 
-- Depend on **pre-made modules** from the community.
+A list of package can be found in the [package repository](https://github.com/FabricCore/jscore-openrepo?tab=readme-ov-file#all-packages), anyone can publish packages to this repository.
 
-```js
-{
-    "name": "mymodule",
-    "version": "0.1.0",
+## How does this mod work?
 
-    "dependencies": {
-        "toggle": "0.1.0",
-        "keep": "0.1.0"
-    },
-    "javaDependencies": [
-        "yarnwrap"
-    ]
-    // ...
-}
-```
-
-### User Friendly
-
-JSCore modules are **easy to install** using a **_package manager_** - no manual downloads, no restarting required.
-
-```js
-/pully install package
-```
-
-_There is also a `pully update` command which does exactly what you think it does_.
-
-## When to Use JSCore?
-
-Use JSCore when:
-
-- Creating **very small modules**, such as chat or movement related functions.
-- Writing **player automations** that uses events such as **onTick**.
-- Users are allowed to **define custom behaviour** using JavaScript.
-- Many different modules **depend on one another\***.
-
-_\*It is good practice for each module to do one task and one task only (see [the Unix Philosophy](https://en.wikipedia.org/wiki/Unix_philosophy))_.
-
-Baritone - the Minecraft path finding automation is ***technically possible*** in JSCore.
-
-### When not to use JSCore?
-
-Do not use JSCore if:
-- Key parts of your module **rely on mixins**, as it is not ready yet.
-- Library you are accessing requires **Java specific language features**, such as class inheritance.
-
-## How does JSCore Work?
-
-JSCore contains the [Rhino](https://rhino.github.io/) JavaScript runtime, which allows Java classes and methods to be accessed from JS.
-
-### Problem with Obfuscation
-
-Mods that uses JavaScript such as [ChatTriggers](https://chattriggers.com/) cannot access Minecraft internals because they are obfuscated. For example, **net.minecraft.client.MinecraftClient** is obfuscated to **net.minecraft.class_310**, making it inaccessible by its original name.
-
-The workaround to obfuscation requires [Yarnwrap](https://github.com/FabricCore/yarnwrap) which translates the human readable name into the obfuscated name when it is accessed.
+The Minecraft code is obfuscated and cannot be referred to by their real name. This mod uses Yarnwrap, which wraps all **net.minecraft** classes so their real name can be used instead of their obfuscated name.
 
 ```mermaid
 sequenceDiagram
@@ -135,12 +80,5 @@ sequenceDiagram
     Minecraft->>Yarnwrap: Here's class_310
     Yarnwrap->>JSCore: Here's MinecraftClient
 ```
-
-### Wraps and Cores
-
-- A **core** provides a runtime for a scripting language.
-- A **wrap** exposes some Minecraft internals to the scripting runtime.
-
-In this case, **Yarnwrap** exposes 20k obfuscated methods to any scripting runtime. Similarly, **Mixinwrap** (to be written) will expose some Mixin functionalities as events that can be listened to.
 
 <img src="./img/jscore-icon.png" width=50px><img src="./img/yarnwrap-icon.png" width=50px>
