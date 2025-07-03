@@ -17,7 +17,7 @@ In short, JSCore can do
 
 Just download the mod and run the game!
 
-Read the [Quickstart Guide](./quickstart).
+Read the [Quickstart Guide](https://jscore.siri.ws/player/quickstart).
 
 ## How is it different from KubeJS/JSMacros?
 
