@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> # MOD BEING REWRITTEN, JOIN DISCORD INSTEAD
+> https://discord.gg/WAR9aKVFQJ
+
 # FabricMC + JavaScript = JSCore
 
 JSCore is a thin wrapper around FabricMC.
